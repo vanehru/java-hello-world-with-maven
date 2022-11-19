@@ -17,20 +17,20 @@ pipeline{
                     expression { env.BRANCH_NAME == 'jenkins' }
                     }
             }
-           stage('checkout'){
-            steps{
-                checkout([
-                    $class: 'GitSCM', 
-                    branches: [[name: "${env.BRANCH_NAME}"]],
-                    userRemoteConfigs: [[credentialsId: 'Githubcred', url: "${params.git_url}"]]
-                    ])
+            stage('clone'){
+                steps{
+                    checkout([
+                        $class: 'GitSCM', 
+                        branches: [[name: "${env.BRANCH_NAME}"]],
+                        userRemoteConfigs: [[credentialsId: 'Githubcred', url: "${params.git_url}"]]
+                        ])
+                    }
                 }
-            }
             stage('build'){
                 when {
-                allOf {
-                    expression { params.deploy == "true" }
-                    }
+                    allOf {
+                        expression { params.deploy == "true" }
+                        }
                     }
                 steps{
                 sh 'mvn package'
