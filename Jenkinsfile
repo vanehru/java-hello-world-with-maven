@@ -11,13 +11,13 @@ pipeline{
     }
 
     stages{
-            when {
-                anyOf {
-                    expression { env.BRANCH_NAME == 'master' }
-                    expression { env.BRANCH_NAME == 'jenkins' }
-                    }
-            }
             stage('clone'){
+                when {
+                    anyOf {
+                        expression { env.BRANCH_NAME == 'master' }
+                        expression { env.BRANCH_NAME == 'jenkins' }
+                        }
+                }
                 steps{
                     checkout([
                         $class: 'GitSCM', 
