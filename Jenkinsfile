@@ -11,15 +11,13 @@ pipeline{
     }
 
     stages{
-        anyOf {
-            expression { env.BRANCH_NAME == 'master' }
-            expression { env.BRANCH_NAME == 'jenkins' }
-              }
-                    
-        stage('checkout'){
+           stage('checkout'){
+            anyOf {
+                expression { env.BRANCH_NAME == 'master' }
+                expression { env.BRANCH_NAME == 'jenkins' }
+                }
             steps{
                 checkout([
-                    
                     $class: 'GitSCM', 
                     branches: [[name: "${env.BRANCH_NAME}"]],
                     userRemoteConfigs: [[credentialsId: 'Githubcred', url: "${params.git_url}"]]
