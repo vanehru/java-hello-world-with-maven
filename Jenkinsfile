@@ -29,6 +29,10 @@ pipeline{
             stage('build'){
                 when {
                     allOf {
+                        anyOf {
+                            expression { env.BRANCH_NAME == 'master' }
+                            expression { env.BRANCH_NAME == 'jenkins' }
+                            }
                         expression { params.deploy == "true" }
                         }
                     }
